@@ -1,0 +1,4 @@
+[submodule "submodules/Avalonia.Ide"]
+	path = submodules/Avalonia.Ide
+	url = https://github.com/kekekeks/Avalonia.Ide.git
+	branch = master

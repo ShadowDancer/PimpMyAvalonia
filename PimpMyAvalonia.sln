@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PimpMyAvalonia.LanguageServer", "PimpMyAvalonia.LanguageServer\PimpMyAvalonia.LanguageServer.csproj", "{B90A6856-CA5E-4371-B6A1-EA1D08E158B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PimpMyAvalonia.Vs", "PimpMyAvalonia.Vs\PimpMyAvalonia.Vs.csproj", "{46EC43AB-32FC-40BD-B86C-9A23D564D0D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B90A6856-CA5E-4371-B6A1-EA1D08E158B3} = {B90A6856-CA5E-4371-B6A1-EA1D08E158B3}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaSample", "AvaloniaSample\AvaloniaSample.csproj", "{D55D1722-3028-4ACB-A25E-5C6828B5B12F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{20A80E66-6B7E-49BC-93E0-D7AD033DC90C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Ide.CompletionEngine", "submodules\Avalonia.Ide\src\Avalonia.Ide.CompletionEngine\Avalonia.Ide.CompletionEngine.csproj", "{FB0F2F45-7A10-47D5-9723-CDD20EEF49CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Ide.CompletionEngine.DnlibMetadataProvider", "submodules\Avalonia.Ide\src\Avalonia.Ide.CompletionEngine.DnlibMetadataProvider\Avalonia.Ide.CompletionEngine.DnlibMetadataProvider.csproj", "{137FA617-5D46-4F92-8BE5-1BE512CCADE1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PimpMyAvalonia.LanguageServer.Tests", "PimpMyAvalonia.LanguageServer.Tests\PimpMyAvalonia.LanguageServer.Tests.csproj", "{F8088CF3-8864-427C-AC1A-3313EED6840C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B90A6856-CA5E-4371-B6A1-EA1D08E158B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B90A6856-CA5E-4371-B6A1-EA1D08E158B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B90A6856-CA5E-4371-B6A1-EA1D08E158B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B90A6856-CA5E-4371-B6A1-EA1D08E158B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46EC43AB-32FC-40BD-B86C-9A23D564D0D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46EC43AB-32FC-40BD-B86C-9A23D564D0D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46EC43AB-32FC-40BD-B86C-9A23D564D0D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46EC43AB-32FC-40BD-B86C-9A23D564D0D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D55D1722-3028-4ACB-A25E-5C6828B5B12F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D55D1722-3028-4ACB-A25E-5C6828B5B12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D55D1722-3028-4ACB-A25E-5C6828B5B12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D55D1722-3028-4ACB-A25E-5C6828B5B12F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB0F2F45-7A10-47D5-9723-CDD20EEF49CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB0F2F45-7A10-47D5-9723-CDD20EEF49CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB0F2F45-7A10-47D5-9723-CDD20EEF49CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB0F2F45-7A10-47D5-9723-CDD20EEF49CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{137FA617-5D46-4F92-8BE5-1BE512CCADE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{137FA617-5D46-4F92-8BE5-1BE512CCADE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{137FA617-5D46-4F92-8BE5-1BE512CCADE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{137FA617-5D46-4F92-8BE5-1BE512CCADE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8088CF3-8864-427C-AC1A-3313EED6840C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8088CF3-8864-427C-AC1A-3313EED6840C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8088CF3-8864-427C-AC1A-3313EED6840C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8088CF3-8864-427C-AC1A-3313EED6840C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FB0F2F45-7A10-47D5-9723-CDD20EEF49CB} = {20A80E66-6B7E-49BC-93E0-D7AD033DC90C}
+		{137FA617-5D46-4F92-8BE5-1BE512CCADE1} = {20A80E66-6B7E-49BC-93E0-D7AD033DC90C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7EED17FE-1D5C-46A1-9DD2-F758396570C5}
+	EndGlobalSection
+EndGlobal
