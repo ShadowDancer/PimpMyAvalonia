@@ -23,7 +23,6 @@ namespace PimpMyAvalonia.LanguageServer
 
         private string FindProjectFor(string documentPath)
         {
-            _logger.LogInformation("Looking for project for " + documentPath);
             string path;
             string newPath = Path.GetDirectoryName(documentPath);
             do

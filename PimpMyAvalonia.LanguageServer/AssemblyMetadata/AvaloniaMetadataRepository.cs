@@ -25,8 +25,5 @@ namespace PimpMyAvalonia.LanguageServer
             var metadataTask =  ProjectMetadata.GetOrAdd(projectPath, _metadataLoader.CreateMetadataForProject);
             return metadataTask;
         }
-
-
-
     }
 }

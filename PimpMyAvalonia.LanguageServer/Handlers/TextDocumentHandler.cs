@@ -1,14 +1,19 @@
-﻿using MediatR;
+﻿using Avalonia.Ide.CompletionEngine;
+using MediatR;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Document;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server.Capabilities;
+using OmniSharp.Extensions.LanguageServer.Protocol.Window;
+using OmniSharp.Extensions.LanguageServer.Protocol.Workspace;
+using PimpMyAvalonia.LanguageServer.Handlers;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Range = OmniSharp.Extensions.LanguageServer.Protocol.Models.Range;
 
 namespace PimpMyAvalonia.LanguageServer
 {
@@ -57,29 +62,88 @@ namespace PimpMyAvalonia.LanguageServer
             throw new NotImplementedException();
         }
 
-        public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
             var text = request.ContentChanges.FirstOrDefault()?.Text;
 
-            var buffer = _bufferManager.GetBuffer(documentPath) ?? "";
-            foreach(var change in request.ContentChanges)
+            var buffer = _bufferManager.GetBuffer(request.TextDocument);
+            int offset = 0;
+            int characterToRemove = 0;
+            foreach (var change in request.ContentChanges)
             {
-                var position = Utils.PositionToOffset(change.Range.Start, buffer);
-                var characterToRemove = 0;
-                if(change.Range.Start != change.Range.End)
+                offset = Utils.PositionToOffset(change.Range.Start, buffer);
+                characterToRemove = 0;
+                if (change.Range.Start != change.Range.End)
                 {
-                    characterToRemove = Utils.PositionToOffset(change.Range.End, buffer) - position;
+                    characterToRemove = Utils.PositionToOffset(change.Range.End, buffer) - offset;
                 }
 
-                _bufferManager.UpdateBuffer(documentPath, position, text, characterToRemove);
+                _bufferManager.UpdateBuffer(request.TextDocument, offset, text, characterToRemove);
+            }
+            if (request.ContentChanges.Count() == 1)
+            {
+                var bufferWithContentChange = _bufferManager.GetBuffer(request.TextDocument);
+                await ApplyTextManipulations(request, text, buffer, bufferWithContentChange, offset, characterToRemove);
+            }
+            return Unit.Value;
+        }
+
+        private async Task ApplyTextManipulations(DidChangeTextDocumentParams request, string text, string buffer, string changedBuffer, int position, int deletedCharacters)
+        {
+            TextManipulator textManipulator = new TextManipulator(changedBuffer, position);
+            var manipulations = textManipulator.ManipulateText(new TextChangeAdapter(position, text, buffer.Substring(position, deletedCharacters)));
+
+            if(manipulations.Count == 0)
+            {
+                return;
             }
 
-            return Unit.Task;
+            var edits = manipulations.Select(n =>
+            {
+                var start = Utils.OffsetToPosition(n.Start, changedBuffer);
+                
+                switch (n.Type)
+                {
+                    case ManipulationType.Insert:
+                        return new TextEdit()
+                        {
+                            NewText = n.Text,
+                            Range = new Range(start, start)
+                        };
+                    case ManipulationType.Delete:
+                        var end = Utils.OffsetToPosition(n.End, changedBuffer);
+                        return new TextEdit()
+                        {
+                            NewText = "",
+                            Range = new Range(start, end)
+                        };
+                    default:
+                        throw new NotSupportedException();
+                }
+            }).ToList();
+            if (edits.Count > 0)
+            {
+                await _router.ApplyWorkspaceEdit(new ApplyWorkspaceEditParams()
+                {
+                    Edit = new WorkspaceEdit()
+                    {
+                        DocumentChanges = new Container<WorkspaceEditDocumentChange>(new WorkspaceEditDocumentChange(new TextDocumentEdit()
+                        {
+                            TextDocument = request.TextDocument,
+                            Edits = new TextEditContainer(edits)
+                        }))
+                    }
+                });
+            }
         }
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)
         {
-            _bufferManager.CreateBuffer(request.TextDocument.Uri.ToUri().LocalPath, request.TextDocument.Text);
+            _bufferManager.CreateBuffer(new VersionedTextDocumentIdentifier()
+            {
+                Uri = request.TextDocument.Uri,
+                Version = request.TextDocument.Version
+            }, request.TextDocument.Text);
             return Unit.Task;
         }
 

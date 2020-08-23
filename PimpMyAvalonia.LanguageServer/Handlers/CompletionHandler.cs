@@ -59,7 +59,7 @@ namespace Server
         public async Task<CompletionList> Handle(CompletionParams request, CancellationToken cancellationToken)
         {
             var documentPath = request.TextDocument.Uri.ToUri().LocalPath;
-            var buffer = _bufferManager.GetBuffer(documentPath);
+            var buffer = _bufferManager.GetBuffer(request.TextDocument.Uri);
 
             if (buffer == null)
             {
@@ -72,24 +72,13 @@ namespace Server
                 return new CompletionList();
             }
 
-            _logger.LogInformation("Metadata: " + metdata.Namespaces.Count);
             var position = Utils.PositionToOffset(request.Position, buffer.AsSpan());
-
-
-            _router.Window.LogInfo("Compltion trigger  " + request.Context.TriggerCharacter + " " + request.Position.Line + ", " + request.Position.Character);
-            _router.Window.LogInfo("Completing at "+ position + ": \r\n" + buffer.Insert(position, "$"));
             var completionResult = new CompletionEngine().GetCompletions(metdata, buffer.ToString(), position);
 
             if(completionResult == null)
             {
                 return new CompletionList();
             }
-
-            foreach(var completion in completionResult.Completions)
-            {
-                _router.Window.LogInfo($"Found completions: {completion.DisplayText} ({completion.InsertText})");
-            }
-
 
             List<CompletionItem> mappedComlpletions = new List<CompletionItem>();
             for (int i = 0; i < completionResult.Completions.Count; i++)
