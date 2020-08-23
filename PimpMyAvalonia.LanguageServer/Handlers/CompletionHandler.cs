@@ -73,15 +73,8 @@ namespace Server
             }
 
             _logger.LogInformation("Metadata: " + metdata.Namespaces.Count);
-            string stringBuffer = buffer.ToString();
+            var position = Utils.PositionToOffset(request.Position, buffer.AsSpan());
 
-            int position = 0;
-            for(int i= 0; i < request.Position.Line; i++)
-            {
-                var line = stringBuffer.IndexOf("\r\n", position);
-                position = line + 2;
-            }
-            position += request.Position.Character;
 
             _router.Window.LogInfo("Compltion trigger  " + request.Context.TriggerCharacter + " " + request.Position.Line + ", " + request.Position.Character);
             _router.Window.LogInfo("Completing at "+ position + ": \r\n" + buffer.Insert(position, "$"));

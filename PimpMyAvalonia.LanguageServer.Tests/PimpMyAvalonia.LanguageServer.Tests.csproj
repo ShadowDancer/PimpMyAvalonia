@@ -18,8 +18,4 @@
     <ProjectReference Include="..\PimpMyAvalonia.LanguageServer\PimpMyAvalonia.LanguageServer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UnitTests\" />
-  </ItemGroup>
-
 </Project>

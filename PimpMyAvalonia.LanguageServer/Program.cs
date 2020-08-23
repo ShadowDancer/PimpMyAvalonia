@@ -25,7 +25,7 @@ namespace PimpMyAvalonia.LanguageServer
                     .WithServices(ConfigureServices)
                     
 
-                    .WithHandler<TextDocumentSyncHandler>()
+                    .WithHandler<TextDocumentHandler>()
                     .WithHandler<CompletionHandler>()
                 );
 
@@ -38,6 +38,7 @@ namespace PimpMyAvalonia.LanguageServer
         {
             services.AddSingleton<TextDocumentBuffer>();
             services.AddSingleton<AvaloniaMetadataRepository>();
+            services.AddSingleton<AvaloniaMetadataLoader>();
             services.AddSingleton<TextDocumentToProjectMapper>();
             services.AddSingleton<DocumentMetadataProvider>();
         }

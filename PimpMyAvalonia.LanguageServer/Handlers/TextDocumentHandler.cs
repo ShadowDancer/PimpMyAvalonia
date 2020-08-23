@@ -1,21 +1,18 @@
 ﻿using MediatR;
-using Microsoft.Language.Xml;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Document;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server.Capabilities;
-using OmniSharp.Extensions.LanguageServer.Protocol.Window;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace PimpMyAvalonia.LanguageServer
 {
-    class TextDocumentSyncHandler : ITextDocumentSyncHandler
+    class TextDocumentHandler : ITextDocumentSyncHandler
     {
         private readonly ILanguageServer _router;
         private readonly TextDocumentBuffer _bufferManager;
@@ -33,13 +30,13 @@ namespace PimpMyAvalonia.LanguageServer
 
         private SynchronizationCapability _capability;
 
-        public TextDocumentSyncHandler(ILanguageServer router, TextDocumentBuffer bufferManager)
+        public TextDocumentHandler(ILanguageServer router, TextDocumentBuffer bufferManager)
         {
             _router = router;
             _bufferManager = bufferManager;
         }
 
-        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full;
+        public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Incremental;
 
         public TextDocumentChangeRegistrationOptions GetRegistrationOptions()
         {
@@ -65,14 +62,25 @@ namespace PimpMyAvalonia.LanguageServer
             var documentPath = request.TextDocument.Uri.ToUri().LocalPath;
             var text = request.ContentChanges.FirstOrDefault()?.Text;
 
-            _bufferManager.UpdateBuffer(documentPath, text);
+            var buffer = _bufferManager.GetBuffer(documentPath) ?? "";
+            foreach(var change in request.ContentChanges)
+            {
+                var position = Utils.PositionToOffset(change.Range.Start, buffer);
+                var characterToRemove = 0;
+                if(change.Range.Start != change.Range.End)
+                {
+                    characterToRemove = Utils.PositionToOffset(change.Range.End, buffer) - position;
+                }
+
+                _bufferManager.UpdateBuffer(documentPath, position, text, characterToRemove);
+            }
 
             return Unit.Task;
         }
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)
         {
-            _bufferManager.UpdateBuffer(request.TextDocument.Uri.ToUri().LocalPath, request.TextDocument.Text);
+            _bufferManager.CreateBuffer(request.TextDocument.Uri.ToUri().LocalPath, request.TextDocument.Text);
             return Unit.Task;
         }
 
