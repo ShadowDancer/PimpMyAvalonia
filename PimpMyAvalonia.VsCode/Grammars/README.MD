@@ -1,0 +1,1 @@
+AvaloniaXaml.plist in this file is generated during npm install, edit file in repository root to change it for all extensions.

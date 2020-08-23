@@ -52,10 +52,8 @@
     <Compile Include="ViewCreationListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Grammars.pkgdef">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Grammars\Language.plist">
+    <Content Include="..\Grammars\AvaloniaXaml.plist">
+      <Link>Grammars\AvaloniaXaml.plist</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="LanguageServer\*.dll">

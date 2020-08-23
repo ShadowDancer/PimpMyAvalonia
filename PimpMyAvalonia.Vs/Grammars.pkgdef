@@ -1,5 +1,5 @@
 ﻿[$RootKey$\TextMate\Repositories]
-"Avalonia axaml"="$PackageFolder$\Grammars"
+"Avalonia Xaml"="$PackageFolder$\Grammars"
 
 ; Match file extensions with icons. See full icon list at https://glyphlist.azurewebsites.net/knownmonikers/
 [$RootKey$\ShellFileAssociations\.pkgdef]
