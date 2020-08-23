@@ -67,8 +67,6 @@ namespace PimpMyAvalonia.LanguageServer
 
             _bufferManager.UpdateBuffer(documentPath, text);
 
-            _router.Window.LogInfo($"Updated buffer for document: {documentPath}\n{text}");
-
             return Unit.Task;
         }
 
