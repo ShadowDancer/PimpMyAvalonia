@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Ide.CompletionEngi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PimpMyAvalonia.LanguageServer.Tests", "PimpMyAvalonia.LanguageServer.Tests\PimpMyAvalonia.LanguageServer.Tests.csproj", "{F8088CF3-8864-427C-AC1A-3313EED6840C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompletionEngineTests", "submodules\Avalonia.Ide\tests\CompletionEngineTests\CompletionEngineTests.csproj", "{B0728842-57C7-4F56-8581-3417C1114558}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{F8088CF3-8864-427C-AC1A-3313EED6840C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8088CF3-8864-427C-AC1A-3313EED6840C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8088CF3-8864-427C-AC1A-3313EED6840C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0728842-57C7-4F56-8581-3417C1114558}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0728842-57C7-4F56-8581-3417C1114558}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0728842-57C7-4F56-8581-3417C1114558}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0728842-57C7-4F56-8581-3417C1114558}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FB0F2F45-7A10-47D5-9723-CDD20EEF49CB} = {20A80E66-6B7E-49BC-93E0-D7AD033DC90C}
 		{137FA617-5D46-4F92-8BE5-1BE512CCADE1} = {20A80E66-6B7E-49BC-93E0-D7AD033DC90C}
+		{B0728842-57C7-4F56-8581-3417C1114558} = {20A80E66-6B7E-49BC-93E0-D7AD033DC90C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EED17FE-1D5C-46A1-9DD2-F758396570C5}

@@ -92,23 +92,22 @@ namespace Server
 
 
             List<CompletionItem> mappedComlpletions = new List<CompletionItem>();
-
             for (int i = 0; i < completionResult.Completions.Count; i++)
             {
-                var completion = MapCompletion(completionResult.Completions[i], request.Position, i.ToString().PadLeft(10,'0'));
+                var completion = MapCompletion(completionResult.Completions[i], completionResult.StartPosition, request.Position, i.ToString().PadLeft(10,'0'), buffer);
                 mappedComlpletions.Add(completion);
             }
 
             return new CompletionList(mappedComlpletions);
         }
 
-        public CompletionItem MapCompletion(Completion n, Position pos, string sortText)
+        public CompletionItem MapCompletion(Completion n, int startOffset, Position pos, string sortText, string buffer)
         {
-
+            Position startPosition = Utils.OffsetToPosition(startOffset, buffer);
             TextEdit edit = new TextEdit()
             {
                 NewText = n.InsertText,
-                Range = new OmniSharp.Extensions.LanguageServer.Protocol.Models.Range(pos, pos)
+                Range = new OmniSharp.Extensions.LanguageServer.Protocol.Models.Range(startPosition, pos)
             };
             CompletionItem item = new CompletionItem()
             {

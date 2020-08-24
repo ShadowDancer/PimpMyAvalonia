@@ -59,7 +59,6 @@ namespace PimpMyAvalonia.LanguageServer
 
         public Task<Unit> Handle(DidChangeTextDocumentParams request, CancellationToken cancellationToken)
         {
-            var documentPath = request.TextDocument.Uri.ToUri().LocalPath;
             var text = request.ContentChanges.FirstOrDefault()?.Text;
 
             var buffer = _bufferManager.GetBuffer(documentPath) ?? "";
