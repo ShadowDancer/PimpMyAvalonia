@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { workspace, ExtensionContext } from 'vscode';
+import * as vscode from 'vscode';
 
 import {
   LanguageClient,
@@ -12,13 +13,14 @@ import {
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
+  var myExtDir = vscode.extensions.getExtension ("PrzemyslawOnak.pimp-my-avalonia").extensionPath;
 
   let serverOptions: ServerOptions =  {
     command: 'dotnet',
     args:  ['PimpMyAvalonia.LanguageServer.dll'],
     transport: TransportKind.stdio,
     options: {
-      cwd: 'C:\\Users\\przem\\source\\repos\\PimpMyAvalonia\\PimpMyAvalonia.LanguageServer\\bin\\Debug\\netcoreapp3.1\\',
+      cwd: path.join(myExtDir, 'languageServer'),
       shell: false
     }
   };

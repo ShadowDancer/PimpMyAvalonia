@@ -1,4 +1,5 @@
 ﻿using Avalonia.Ide.CompletionEngine;
+using PimpMyAvalonia.LanguageServer.ProjectModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,12 +12,17 @@ namespace PimpMyAvalonia.LanguageServer.AssemblyMetadata
     public class DocumentMetadataProvider
     {
         private readonly TextDocumentToProjectMapper _documentMapper;
-        private readonly AvaloniaMetadataRepository _metadataRepository;
+        private readonly AvaloniaMetadataShepard _metadataRepository;
+        private readonly ProjectShepard _projectShepard;
 
-        public DocumentMetadataProvider(TextDocumentToProjectMapper documentMapper, AvaloniaMetadataRepository metadataRepository)
+        public DocumentMetadataProvider(
+            TextDocumentToProjectMapper documentMapper, 
+            AvaloniaMetadataShepard metadataRepository,
+            ProjectShepard projectShepard)
         {
             _documentMapper = documentMapper;
             _metadataRepository = metadataRepository;
+            _projectShepard = projectShepard;
         }
 
         public Metadata GetMetadataForDocument(string documentPath)
@@ -26,6 +32,7 @@ namespace PimpMyAvalonia.LanguageServer.AssemblyMetadata
             {
                 return null;
             }
+
             var metadataTask = _metadataRepository.GetMetadataForProject(projectPath);
             if (!metadataTask.IsCompletedSuccessfully)
             {

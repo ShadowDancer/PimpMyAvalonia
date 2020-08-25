@@ -3,8 +3,13 @@
     "displayName": "PimpMyAvalonia",
     "description": "Avalonia xaml support for VsCode",
     "version": "0.0.1",
+    "publisher": "PrzemyslawOnak",
     "engines": {
         "vscode": "^1.48.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ShadowDancer/PimpMyAvalonia.git"
     },
     "categories": [
         "Programming Languages"

@@ -2,8 +2,11 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OmniSharp.Extensions.LanguageServer.Protocol.Workspace;
 using OmniSharp.Extensions.LanguageServer.Server;
 using PimpMyAvalonia.LanguageServer.AssemblyMetadata;
+using PimpMyAvalonia.LanguageServer.Handlers;
+using PimpMyAvalonia.LanguageServer.ProjectModel;
 using Server;
 namespace PimpMyAvalonia.LanguageServer
 {
@@ -18,26 +21,20 @@ namespace PimpMyAvalonia.LanguageServer
                     .WithOutput(Console.OpenStandardOutput())
                     .WithLoggerFactory(new LoggerFactory())
                     .AddDefaultLoggingProvider()
-                    .ConfigureLogging(logging =>
-                    {
-                        logging.AddFile("Logs/myapp-{Date}.txt");
-                    })
                     .WithServices(ConfigureServices)
-                    
-
                     .WithHandler<TextDocumentHandler>()
                     .WithHandler<CompletionHandler>()
+                    .WithHandler<FileChangedHandler>()
                 );
 
             await server.WaitForExit;
         }
 
-
-
         static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<TextDocumentBuffer>();
-            services.AddSingleton<AvaloniaMetadataRepository>();
+            services.AddSingleton<ProjectShepard>();
+            services.AddSingleton<AvaloniaMetadataShepard>();
             services.AddSingleton<AvaloniaMetadataLoader>();
             services.AddSingleton<TextDocumentToProjectMapper>();
             services.AddSingleton<DocumentMetadataProvider>();

@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Xunit;
 using NSubstitute;
 using Microsoft.Extensions.Logging;
-using OmniSharp.Extensions.LanguageServer.Protocol.Client;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 using System;
 using System.IO;
 using PimpMyAvalonia.LanguageServer.Tests;
+using PimpMyAvalonia.LanguageServer.ProjectModel;
 
 namespace PimpyMyAvalonia.LanguageServer.Tests
 {
@@ -18,7 +18,7 @@ namespace PimpyMyAvalonia.LanguageServer.Tests
 
         public IntegrationTests()
         {
-            CsProjLocation = Path.Combine(TestUtils.GetApplicationRoot(), "..\\AvaloniaSample\\AvaloniaSample.csproj");   
+            CsProjLocation = Path.GetFullPath(Path.Combine(TestUtils.GetApplicationRoot(), "..\\AvaloniaSample\\AvaloniaSample.csproj"));   
         }
 
         [Fact]
@@ -36,9 +36,10 @@ namespace PimpyMyAvalonia.LanguageServer.Tests
         [Fact]
         public async Task TestMetadataResolution()
         {
+            //MSBuildLocator.RegisterMSBuildPath("C:\\Program Files\\dotnet\\sdk\\3.1.401");
             var loader = new AvaloniaMetadataLoader(Substitute.For<ILanguageServer>());
-            AvaloniaMetadataRepository repository = new AvaloniaMetadataRepository(loader);
-            var metadataTask = repository.GetMetadataForProject(CsProjLocation);
+            AvaloniaMetadataShepard shepard = new AvaloniaMetadataShepard(loader, new ProjectShepard());
+            var metadataTask = shepard.GetMetadataForProject(CsProjLocation);
             Assert.NotNull(await metadataTask);
         }
     }
