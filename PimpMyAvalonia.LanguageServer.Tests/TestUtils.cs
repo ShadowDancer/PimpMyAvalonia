@@ -10,11 +10,12 @@ namespace PimpMyAvalonia.LanguageServer.Tests
     {
         public static string GetApplicationRoot()
         {
-            var exePath = Path.GetDirectoryName(System.Reflection
-                              .Assembly.GetExecutingAssembly().CodeBase);
-            Regex appPathMatcher = new Regex(@"(?<!fil)[A-Za-z]:\\+[\S\s]*?(?=\\+bin)");
-            var appRoot = appPathMatcher.Match(exePath).Value;
-            return appRoot;
+            var wd = AppDomain.CurrentDomain.BaseDirectory;
+            while (Path.GetFileName(wd) != "bin")
+            {
+                wd = Directory.GetParent(wd).FullName;
+            }
+            return Directory.GetParent(wd).FullName;
         }
 
     }
