@@ -18,7 +18,7 @@ namespace PimpMyAvalonia.LanguageServer
 
         public string GetProjectForDocument(string documentPath)
         {
-            return DocumentToCsprojMapping.GetOrAdd(documentPath, FindProjectFor);
+            return Path.GetFullPath(DocumentToCsprojMapping.GetOrAdd(documentPath, FindProjectFor));
         }
 
         private string FindProjectFor(string documentPath)
