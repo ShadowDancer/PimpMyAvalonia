@@ -18,13 +18,13 @@ namespace PimpyMyAvalonia.LanguageServer.Tests
 
         public IntegrationTests()
         {
-            CsProjLocation = Path.GetFullPath(Path.Combine(TestUtils.GetApplicationRoot(), "..\\AvaloniaSample\\AvaloniaSample.csproj"));   
+            CsProjLocation = Path.GetFullPath(Path.Combine(TestUtils.GetApplicationRoot(), "..", "AvaloniaSample", "AvaloniaSample.csproj"));
         }
 
         [Fact]
         public void TestCsprojResolution()
         {
-            string directory = Path.Combine(TestUtils.GetApplicationRoot(), "..\\AvaloniaSample\\Views\\MainWindow.axaml");
+            string directory = Path.Combine(TestUtils.GetApplicationRoot(), "..", "AvaloniaSample", "Views", "MainWindow.axaml");
 
             var mapper = new TextDocumentToProjectMapper(Substitute.For<ILogger<TextDocumentToProjectMapper>>());
 
